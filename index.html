@@ -1,0 +1,62 @@
+<head>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="assets/css/hakoirimusume.css" />
+</head>
+<style>
+  body {
+    background: #121212;
+  }
+  #game {
+    width: 500px;
+    margin: auto;
+  }
+  @media only screen and (max-width: 660px) {
+    #game {
+      width: 90%;
+    }
+  }
+</style>
+<body>
+  <h2>箱入り娘</h2>
+
+  <div id="game-help">
+    <div>
+      <span id="move-count"></span>
+      moves
+    </div>
+    <button id="reset">RESET</button>
+    <div id="game"></div>
+  </div>
+
+  <script src="dist/sliding-puzzles.js"></script>
+  <script>
+    function sol(s) {
+      return s.pieces.find((p) => p.name === 'K').position === 13;
+    }
+    function win(s) {
+      setTimeout(() => {
+        wscreen = document.createElement('div');
+        wscreen.classList.add('win');
+        s.elements.main.appendChild(wscreen);
+      }, 50);
+    }
+    function move(s) {
+      mcnt = document.getElementById('move-count');
+      mcnt.innerHTML = s.moves;
+    }
+
+    function init() {
+      mcnt = document.getElementById('move-count');
+      mcnt.innerHTML = '0';
+      SlidingPuzzles(document.getElementById('game'), 'G1 K K G2/G1 K K G2/B S S R/B N L R/ P1 . . P2', {
+        solution: sol,
+        onVictory: win,
+        onMove: move,
+      });
+    }
+
+    btn = document.getElementById('reset');
+    btn.onclick = init;
+    init();
+  </script>
+</body>

@@ -1,0 +1,87 @@
+sp-main {
+  display: flex;
+  position: relative;
+  width: 100%;
+  padding-bottom: 125%;
+  justify-content: center;
+  background: url('../fgg.jpg');
+  background-size: cover;
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+sp-board {
+  position: absolute;
+  width: 85%;
+  height: 85%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+sp-piece {
+  position: absolute;
+  background-size: cover;
+  cursor: pointer;
+}
+
+sp-dest {
+  position: absolute;
+  background: radial-gradient(rgba(47, 75, 202, 0.329) 35%, rgba(0, 0, 0, 0) 20%);
+}
+
+sp-piece.selected {
+  z-index: 10;
+  box-shadow: 0 0 5px #000;
+}
+
+sp-piece.K {
+  background-image: url('../k.jpg');
+}
+
+sp-piece.B {
+  background-image: url('../b.jpg');
+}
+
+sp-piece.R {
+  background-image: url('../r.jpg');
+}
+
+sp-piece.S {
+  background-image: url('../s.jpg');
+}
+
+sp-piece.N {
+  background-image: url('../n.jpg');
+}
+
+sp-piece.L {
+  background-image: url('../l.jpg');
+}
+
+sp-piece.G1 {
+  background-image: url('../g.jpg');
+}
+
+sp-piece.G2 {
+  background-image: url('../g.jpg');
+}
+
+sp-piece.P1 {
+  background-image: url('../p.jpg');
+}
+
+sp-piece.P2 {
+  background-image: url('../p.jpg');
+}
+
+div.win {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-image: url('../win.png');
+  background-size: contain;
+}
