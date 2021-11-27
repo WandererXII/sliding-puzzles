@@ -33,7 +33,7 @@ export function findNeighbors(sq: Square, width: number, height: number): Square
 }
 
 export function getKeyAtDomPos(sit: Situation, pos: [number, number], bounds: ClientRect): Square | undefined {
-  let x = Math.floor((sit.width * (pos[0] - bounds.left)) / bounds.width);
-  let y = Math.floor((sit.height * (pos[1] - bounds.top)) / bounds.height);
+  const x = Math.floor((sit.width * (pos[0] - bounds.left)) / bounds.width);
+  const y = Math.floor((sit.height * (pos[1] - bounds.top)) / bounds.height);
   return x >= 0 && x < sit.width && y >= 0 && y < sit.height ? toSquare(x, y, sit.width) : undefined;
 }

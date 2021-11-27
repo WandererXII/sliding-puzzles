@@ -4,3 +4,4 @@ node_modules
 /*.js.map
 /*.d.ts
 !rollup.config.js
+!.eslintrc.js
