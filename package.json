@@ -5,21 +5,21 @@
   "author": "WandererXII (https://github.com/WandererXII)",
   "license": "GPL-3.0-or-later",
   "dependencies": {
-    "@babel/preset-env": "^7.16.4"
+    "@babel/preset-env": "^7.14.7"
   },
   "devDependencies": {
-    "@babel/core": "^7.16.0",
+    "@babel/core": "^7.14.6",
     "@rollup/plugin-babel": "^5.3.0",
-    "@rollup/plugin-typescript": "^8.3.0",
-    "@typescript-eslint/eslint-plugin": "^5.4.0",
-    "@typescript-eslint/parser": "^5.4.0",
+    "@rollup/plugin-typescript": "^8",
+    "@typescript-eslint/eslint-plugin": "^4",
+    "@typescript-eslint/parser": "^4",
     "babel-plugin-external-helpers": "^6.22.0",
-    "eslint": "^7.32.0",
-    "prettier": "^2.5.0",
-    "rollup": "^2.60.1",
+    "eslint": "^7",
+    "prettier": "^2",
+    "rollup": "^2",
     "rollup-plugin-terser": "^7",
-    "tslib": "^2.3.1",
-    "typescript": "^4.5.2"
+    "tslib": "^2",
+    "typescript": "^4"
   },
   "scripts": {
     "lint": "eslint src/*.ts",
