@@ -1,43 +1,55 @@
 {
-  "name": "sliding-puzzles",
-  "version": "0.0.1",
+  "name": "@liskadan/sliding-puzzles",
+  "version": "0.1.0",
   "description": "All kinds of sliding puzzles",
   "author": "WandererXII (https://github.com/WandererXII)",
   "license": "GPL-3.0-or-later",
-  "dependencies": {
-    "@babel/preset-env": "^7.14.7"
+  "type": "module",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/esm/sliding-puzzles.d.ts",
+      "import": "./dist/esm/sliding-puzzles.js"
+    },
+    "./*": {
+      "types": "./dist/esm/*.d.ts",
+      "import": "./dist/esm/*.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/esm/*"
+      ]
+    }
   },
   "devDependencies": {
-    "@babel/core": "^7.14.6",
-    "@rollup/plugin-babel": "^5.3.0",
-    "@rollup/plugin-typescript": "^8",
-    "@typescript-eslint/eslint-plugin": "^4",
-    "@typescript-eslint/parser": "^4",
-    "babel-plugin-external-helpers": "^6.22.0",
-    "eslint": "^7",
-    "prettier": "^2",
-    "rollup": "^2",
-    "rollup-plugin-terser": "^7",
-    "tslib": "^2",
-    "typescript": "^4"
+    "esbuild": "^0.24",
+    "oxlint": "^0.12",
+    "prettier": "^3",
+    "typescript": "^5",
+    "del-cli": "^6"
   },
   "scripts": {
-    "lint": "eslint src/*.ts",
-    "compile": "tsc --outDir . --sourceMap --declaration",
+    "lint": "oxlint src/*.ts",
     "format": "prettier --write .",
     "check-format": "prettier --check .",
-    "dist": "rollup --config",
-    "dev": "rollup --config --watch"
+    "clean": "del dist",
+    "compile": "tsc",
+    "bundle": "node esbuild.mjs",
+    "build": "$npm_execpath run clean && $npm_execpath run compile && $npm_execpath run bundle"
   },
   "files": [
-    "/*.js",
-    "/*.d.ts",
-    "/*.js.map",
-    "/assets/*.css",
-    "/src/*.ts",
-    "!/rollup.config.js"
+    "./src",
+    "./dist",
+    "./assets/css",
+    "tsconfig.json"
   ],
-  "repository": "https://github.com/WandererXII/hakoirimusume",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WandererXII/sliding-puzzles.git"
+  },
   "keywords": [
     "game",
     "sliding puzzles",
@@ -47,6 +59,6 @@
     "ui"
   ],
   "bugs": {
-    "url": "https://github.com/WandererXII/hakoirimusume/issues"
+    "url": "https://github.com/WandererXII/sliding-puzzles/issues"
   }
 }
