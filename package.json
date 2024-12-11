@@ -45,6 +45,7 @@
     "./dist/esm",
     "./dist/iife",
     "./assets/css",
+    "./assets/preview.png",
     "tsconfig.json"
   ],
   "repository": {
