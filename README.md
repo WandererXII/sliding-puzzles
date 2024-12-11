@@ -5,9 +5,12 @@
 A simple flexible UI for sliding puzzles.
 
 ![Hakoiri musume](/assets/images/preview.png)
+
 Demo on lishogi 404 pages: https://lishogi.org/i/do/not/exist
 
 ## How to use
+
+`npm install @liskadan/sliding-puzzles`
 
 Either include the script in your HTML header:
 
