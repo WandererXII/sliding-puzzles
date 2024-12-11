@@ -42,7 +42,8 @@
   },
   "files": [
     "./src",
-    "./dist",
+    "./dist/esm",
+    "./dist/iife",
     "./assets/css",
     "tsconfig.json"
   ],
