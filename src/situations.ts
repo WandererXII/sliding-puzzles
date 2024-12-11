@@ -29,7 +29,12 @@ export function pieceAtSquare(sit: Situation, sq: Square): Piece | undefined {
   return undefined;
 }
 
-export function squareArea(sit: Situation, position: Square, width: number, height: number): Square[] {
+export function squareArea(
+  sit: Situation,
+  position: Square,
+  width: number,
+  height: number,
+): Square[] {
   const sqs: Square[] = [];
   for (let x = squareX(position, sit.width); x < squareX(position, sit.width) + width; x++) {
     for (let y = squareY(position, sit.width); y < squareY(position, sit.width) + height; y++) {
@@ -72,18 +77,32 @@ export function findAllMoves(sit: Situation, piece: Piece | undefined): Square[]
     return res;
   }
 
-  return [...new Set(innerFind(sitNormalized, piece, [] as Square[]).filter((sq) => !curPieceSquares.includes(sq)))];
+  return [
+    ...new Set(
+      innerFind(sitNormalized, piece, [] as Square[]).filter((sq) => !curPieceSquares.includes(sq)),
+    ),
+  ];
 }
 
 export function canMoveTo(sit: Situation, to: Square): boolean {
-  if (sit.selected === undefined || sit.selected === to || sit.config.solution(sit) || sit.config.movable === false)
+  if (
+    sit.selected === undefined ||
+    sit.selected === to ||
+    sit.config.solution(sit) ||
+    sit.config.movable === false
+  )
     return false;
   const selectedPiece = pieceAtSquare(sit, sit.selected);
   if (!selectedPiece) return false;
 
   const diff = sit.selected - to,
     piecePosToBe = selectedPiece.position - diff,
-    pieceSquares = squareArea(sit, selectedPiece.position, selectedPiece.width, selectedPiece.height),
+    pieceSquares = squareArea(
+      sit,
+      selectedPiece.position,
+      selectedPiece.width,
+      selectedPiece.height,
+    ),
     afterPieceSquares = squareArea(sit, piecePosToBe, selectedPiece.width, selectedPiece.height);
 
   if (
@@ -102,7 +121,12 @@ export function move(sit: Situation, to: Square): void {
 
   const piecePosToBe = selectedPiece.position - (sit.selected - to);
 
-  const pieceSquares = squareArea(sit, selectedPiece.position, selectedPiece.width, selectedPiece.height),
+  const pieceSquares = squareArea(
+      sit,
+      selectedPiece.position,
+      selectedPiece.width,
+      selectedPiece.height,
+    ),
     afterPieceSquares = squareArea(sit, piecePosToBe, selectedPiece.width, selectedPiece.height);
   sit.occupied = sit.occupied.filter((sq) => !pieceSquares.includes(sq));
   sit.occupied.push(...afterPieceSquares);

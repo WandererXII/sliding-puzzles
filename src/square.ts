@@ -6,7 +6,9 @@ export function diff(a: Square, b: Square): number {
 }
 
 export function manhattanDist(sq1: Square, sq2: Square, width: number): number {
-  return diff(squareX(sq1, width), squareX(sq2, width)) + diff(squareY(sq1, width), squareY(sq2, width));
+  return (
+    diff(squareX(sq1, width), squareX(sq2, width)) + diff(squareY(sq1, width), squareY(sq2, width))
+  );
 }
 
 export function squareY(sq: Square, width: number): number {
@@ -33,8 +35,14 @@ export function findNeighbors(sq: Square, width: number, height: number): Square
   });
 }
 
-export function getKeyAtDomPos(sit: Situation, pos: [number, number], bounds: ClientRect): Square | undefined {
+export function getKeyAtDomPos(
+  sit: Situation,
+  pos: [number, number],
+  bounds: DOMRect,
+): Square | undefined {
   const x = Math.floor((sit.width * (pos[0] - bounds.left)) / bounds.width),
     y = Math.floor((sit.height * (pos[1] - bounds.top)) / bounds.height);
-  return x >= 0 && x < sit.width && y >= 0 && y < sit.height ? toSquare(x, y, sit.width) : undefined;
+  return x >= 0 && x < sit.width && y >= 0 && y < sit.height
+    ? toSquare(x, y, sit.width)
+    : undefined;
 }

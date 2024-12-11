@@ -45,7 +45,11 @@ The name will be used as class for styling.
 To initiate the actual puzzle you do this:
 
 ```typescript
-const api = SlidingPuzzles(document.getElementById('game'), 'G1 K K G2/G1 K K G2/B S S R/B N L R/ P1 . . P2', config);
+const api = SlidingPuzzles(
+  document.getElementById('game'),
+  'G1 K K G2/G1 K K G2/B S S R/B N L R/ P1 . . P2',
+  config,
+);
 ```
 
 `config` object looks like this:

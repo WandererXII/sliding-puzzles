@@ -52,11 +52,15 @@
     function init() {
       mcnt = document.getElementById('move-count');
       mcnt.innerHTML = '0';
-      SlidingPuzzles(document.getElementById('game'), 'G1 K K G2/G1 K K G2/B S S R/B N L R/ P1 . . P2', {
-        solution: sol,
-        onVictory: win,
-        onMove: move,
-      });
+      SlidingPuzzles(
+        document.getElementById('game'),
+        'G1 K K G2/G1 K K G2/B S S R/B N L R/ P1 . . P2',
+        {
+          solution: sol,
+          onVictory: win,
+          onMove: move,
+        },
+      );
     }
 
     btn = document.getElementById('reset');
