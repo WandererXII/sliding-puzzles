@@ -1,7 +1,7 @@
-import { Configuration } from './configuration';
-import { pieceAtSquare, Situation } from './situations';
-import { diff, squareX, squareY } from './square';
-import { Elements, Pieces, Setup, Square } from './types';
+import { Configuration } from './configuration.js';
+import { pieceAtSquare, Situation } from './situations.js';
+import { diff, squareX, squareY } from './square.js';
+import { Elements, Pieces, Setup, Square } from './types.js';
 
 // Puzzle setup is a string like this:
 //
@@ -46,7 +46,7 @@ export function createSituation(board: Setup, els: Elements, config: Configurati
   const rows = board
     .replace(/\n/g, '/')
     .split('/')
-    .map((r) => r.replace(/\s\s+/g, ' ').trimEnd().trimStart());
+    .map((r: string) => r.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$/g, ''));
   const width = rows[0].split(' ').length;
   const height = rows.length;
   const pieces: Pieces = [];
@@ -69,12 +69,13 @@ export function createSituation(board: Setup, els: Elements, config: Configurati
 
   function finishPiece(sq: Square): Square[] {
     const pieceSquares: Square[] = [sq];
-    for (const n of [sq + width, sq + 1].filter(
-      (s) =>
+    for (const n of [sq + width, sq + 1].filter((s) => {
+      return (
         s <= width * height &&
         diff(squareX(sq, width), squareX(s, width)) <= 1 &&
         diff(squareY(sq, width), squareY(s, width)) <= 1
-    )) {
+      );
+    })) {
       if (!checkedSquares.has(n) && boardMap.get(n) === boardMap.get(sq)) {
         checkedSquares.add(n);
         pieceSquares.push(...finishPiece(n));

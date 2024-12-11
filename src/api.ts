@@ -1,4 +1,4 @@
-import { Situation } from './situations';
+import { Situation } from './situations.js';
 
 export interface Api {
   situation: Situation;

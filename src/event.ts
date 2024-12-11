@@ -1,7 +1,7 @@
-import { redraw } from './render';
-import { canMoveTo, move, pieceAtSquare, Situation } from './situations';
-import { getKeyAtDomPos } from './square';
-import { eventPosition, posDiff } from './util';
+import { redraw } from './render.js';
+import { canMoveTo, move, pieceAtSquare, Situation } from './situations.js';
+import { getKeyAtDomPos } from './square.js';
+import { eventPosition, posDiff } from './util.js';
 
 export function events(sit: Situation): void {
   for (const ev of ['touchstart', 'mousedown']) {
@@ -27,7 +27,7 @@ export function events(sit: Situation): void {
           redraw(sit);
         }
       },
-      { passive: false }
+      { passive: false },
     );
   }
 
@@ -63,7 +63,7 @@ function onMove(el: HTMLElement | EventTarget, sit: Situation, ev: string) {
         }
       }
     },
-    { once: false }
+    { once: false },
   );
 }
 
@@ -75,6 +75,6 @@ function onEnd(el: HTMLElement | EventTarget, sit: Situation, ev: string) {
       sit.pos = undefined;
       redraw(sit);
     },
-    { once: false }
+    { once: false },
   );
 }

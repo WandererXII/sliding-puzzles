@@ -1,15 +1,15 @@
-import { findAllMoves, pieceAtSquare, Situation, squareArea } from './situations';
-import { squareX, squareY } from './square';
-import { Elements } from './types';
+import { findAllMoves, pieceAtSquare, Situation, squareArea } from './situations.js';
+import { squareX, squareY } from './square.js';
+import { Elements } from './types.js';
 
 export function wrap(el: HTMLElement): Elements {
   el.innerHTML = '';
-  const main = document.createElement('sp-main');
-  const board = document.createElement('sp-board');
-  const els = {
-    main: main,
-    board: board,
-  };
+  const main = document.createElement('sp-main'),
+    board = document.createElement('sp-board'),
+    els = {
+      main: main,
+      board: board,
+    };
 
   main.appendChild(board);
 
@@ -17,12 +17,16 @@ export function wrap(el: HTMLElement): Elements {
   return els;
 }
 
-export function redraw(sit: Situation) {
+export function redraw(sit: Situation): void {
   sit.elements.board.innerHTML = '';
   for (const p of sit.pieces) {
     const piece = document.createElement('sp-piece');
     piece.classList.add(p.name);
-    if (sit.selected !== undefined && squareArea(sit, p.position, p.width, p.height).includes(sit.selected)) {
+    if (
+      sit.selected !== undefined &&
+      squareArea(sit, p.position, p.width, p.height).includes(sit.selected) &&
+      !sit.config.solution(sit)
+    ) {
       piece.classList.add('selected');
     }
     piece.style.transform = `translate(

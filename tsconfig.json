@@ -1,16 +1,26 @@
 {
-  "include": ["src/*.ts"],
-  "exclude": [],
   "compilerOptions": {
-    "noEmitOnError": false,
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "noEmitOnError": true,
+    "noImplicitAny": true,
     "noImplicitThis": true,
     "noImplicitReturns": true,
-    "module": "esnext",
-    "moduleResolution": "node",
     "target": "ES2017",
-    "lib": ["DOM", "ES2017"]
-  }
+    "lib": ["ES2017", "DOM"],
+    "module": "node16",
+    "moduleResolution": "node16",
+    "esModuleInterop": true,
+    "rootDir": "./src",
+    "outDir": "./dist/esm",
+    "declarationDir": "./dist/esm",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "isolatedDeclarations": true,
+    "isolatedModules": true,
+    "incremental": true
+  },
+  "include": ["./src"]
 }
