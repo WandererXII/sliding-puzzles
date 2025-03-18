@@ -4,7 +4,7 @@
 
 A simple flexible UI for sliding puzzles.
 
-![Hakoiri musume](/assets/preview.png)
+![Hakoiri musume](/assets/preview.gif)
 
 Demo on lishogi 404 pages: https://lishogi.org/i/do/not/exist
 
