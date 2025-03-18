@@ -5,7 +5,7 @@ import { redraw, wrap } from './render.js';
 import { createSituation } from './setup.js';
 import { Setup } from './types.js';
 
-export function SlidingPuzzles(el: HTMLElement, setup: Setup, config?: Configuration): Api {
+export function SlidingPuzzles(el: HTMLElement, setup: Setup, config: Configuration = {}): Api {
   const els = wrap(el),
     sit = createSituation(setup, els, Object.assign({}, defaultConfig(), config));
   redraw(sit);

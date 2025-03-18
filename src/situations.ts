@@ -9,7 +9,7 @@ export interface Situation {
   width: number;
   height: number;
   elements: Elements;
-  config: Configuration;
+  config: Required<Configuration>;
   selected?: Square;
   pos?: [number, number];
 }

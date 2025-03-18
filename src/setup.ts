@@ -42,7 +42,11 @@ export function getSetup(sit: Situation): Setup {
   return board;
 }
 
-export function createSituation(board: Setup, els: Elements, config: Configuration): Situation {
+export function createSituation(
+  board: Setup,
+  els: Elements,
+  config: Required<Configuration>,
+): Situation {
   const rows = board
     .replace(/\n/g, '/')
     .split('/')
