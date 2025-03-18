@@ -25,8 +25,8 @@
     }
   },
   "devDependencies": {
-    "esbuild": "^0.24",
-    "oxlint": "^0.12",
+    "esbuild": "^0.25",
+    "oxlint": "^0.16",
     "prettier": "^3",
     "typescript": "^5",
     "del-cli": "^6"
