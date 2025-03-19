@@ -9,6 +9,6 @@ export function SlidingPuzzles(el: HTMLElement, setup: Setup, config: Configurat
   const els = wrap(el),
     sit = createSituation(setup, els, Object.assign({}, defaultConfig(), config));
   redraw(sit);
-  events(sit);
-  return init(sit);
+  const unbind = events(sit);
+  return init(sit, unbind);
 }

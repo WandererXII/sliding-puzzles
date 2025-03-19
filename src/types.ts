@@ -15,3 +15,5 @@ export interface Elements {
 }
 
 export type Setup = string;
+
+export type Unbind = () => void;

@@ -59,20 +59,19 @@ const api = SlidingPuzzles(
 
 ```typescript
 interface Configuration {
-  solution: (sit: Situation) => boolean; // checks after every move if solution was reached
-  onMove: (sit: Situation) => void; // called after each move
-  specialEffect: (p: Piece, h: HTMLElement) => void; // called for each piece during rendering, you can highlight a piece when correctly placed for example
-  onVictory: (sit: Situation) => void; // called after solution was reached
+  solution?: (sit: Situation) => boolean; // checks after every move if solution was reached
+  onMove?: (sit: Situation) => void; // called after each move
+  specialEffect?: (p: Piece, h: HTMLElement) => void; // called for each piece during rendering, you can highlight a piece when correctly placed for example
+  onVictory?: (sit: Situation) => void; // called after solution was reached
   movable?: boolean;
   showDests?: boolean;
 }
 ```
 
-Returned `api` object is just situation:
-
 ```typescript
 interface Api {
   situation: Situation;
+  destroy: () => void; // to unbind document event listeners
 }
 interface Situation {
   pieces: Pieces;
@@ -81,7 +80,7 @@ interface Situation {
   width: number;
   height: number;
   elements: Elements;
-  config: Configuration;
+  config: Required<Configuration>;
   selected?: Square;
   pos?: [number, number];
 }

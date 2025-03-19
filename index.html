@@ -49,10 +49,12 @@
       mcnt.innerHTML = s.moves;
     }
 
+    let api;
     function init() {
       mcnt = document.getElementById('move-count');
       mcnt.innerHTML = '0';
-      SlidingPuzzles(
+      if (api) api.destroy();
+      api = SlidingPuzzles(
         document.getElementById('game'),
         'G1 K K G2/G1 K K G2/B S S R/B N L R/ P1 . . P2',
         {
