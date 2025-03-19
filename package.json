@@ -15,6 +15,9 @@
     "./*": {
       "types": "./dist/esm/*.d.ts",
       "import": "./dist/esm/*.js"
+    },
+    "./hakoirimusume": {
+      "sass": "./assets/styles/hakoirimusume.scss"
     }
   },
   "typesVersions": {
@@ -44,7 +47,7 @@
     "./src",
     "./dist/esm",
     "./dist/iife",
-    "./assets/css",
+    "./assets/styles",
     "./assets/preview.gif",
     "tsconfig.json"
   ],

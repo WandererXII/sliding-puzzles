@@ -21,7 +21,7 @@ Or import it if you are using modules:
 `import { SlidingPuzzles } from '@liskadan/sliding-puzzles';`
 
 You will also want to include the css probably, but you might want to copy that asset and make your own changes:
-`<link rel="stylesheet" href="assets/css/hakoirimusume.css" />`
+`<link rel="stylesheet" href="assets/styles/hakoirimusume.css" />`
 
 Puzzle setup for the example above is a string like this:
 
