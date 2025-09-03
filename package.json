@@ -21,7 +21,7 @@
     }
   },
   "devDependencies": {
-    "@biomejs/biome": "2.2.2",
+    "@biomejs/biome": "^2",
     "esbuild": "^0.25",
     "typescript": "^5",
     "del-cli": "^6",
