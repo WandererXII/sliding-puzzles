@@ -1,5 +1,5 @@
-import { Situation } from './situations.js';
-import { Unbind } from './types.js';
+import type { Situation } from './situations.js';
+import type { Unbind } from './types.js';
 
 export interface Api {
   situation: Situation;

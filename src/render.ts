@@ -1,15 +1,20 @@
-import { findAllMoves, pieceAtSquare, Situation, squareArea } from './situations.js';
+import {
+  findAllMoves,
+  pieceAtSquare,
+  type Situation,
+  squareArea,
+} from './situations.js';
 import { squareX, squareY } from './square.js';
-import { Elements } from './types.js';
+import type { Elements } from './types.js';
 
 export function wrap(el: HTMLElement): Elements {
   el.innerHTML = '';
-  const main = document.createElement('sp-main'),
-    board = document.createElement('sp-board'),
-    els = {
-      main: main,
-      board: board,
-    };
+  const main = document.createElement('sp-main');
+  const board = document.createElement('sp-board');
+  const els = {
+    main: main,
+    board: board,
+  };
 
   main.appendChild(board);
 

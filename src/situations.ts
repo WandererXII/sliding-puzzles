@@ -1,6 +1,12 @@
-import { Configuration } from './configuration.js';
-import { findNeighbors, manhattanDist, squareX, squareY, toSquare } from './square.js';
-import { Elements, Piece, Pieces, Square } from './types.js';
+import type { Configuration } from './configuration.js';
+import {
+  findNeighbors,
+  manhattanDist,
+  squareX,
+  squareY,
+  toSquare,
+} from './square.js';
+import type { Elements, Piece, Pieces, Square } from './types.js';
 
 export interface Situation {
   pieces: Pieces;
@@ -15,8 +21,8 @@ export interface Situation {
 }
 
 export function pieceAtSquare(sit: Situation, sq: Square): Piece | undefined {
-  const x = squareX(sq, sit.width),
-    y = squareY(sq, sit.width);
+  const x = squareX(sq, sit.width);
+  const y = squareY(sq, sit.width);
   for (const p of sit.pieces) {
     if (
       squareX(p.position, sit.width) <= x &&
@@ -36,26 +42,51 @@ export function squareArea(
   height: number,
 ): Square[] {
   const sqs: Square[] = [];
-  for (let x = squareX(position, sit.width); x < squareX(position, sit.width) + width; x++) {
-    for (let y = squareY(position, sit.width); y < squareY(position, sit.width) + height; y++) {
+  for (
+    let x = squareX(position, sit.width);
+    x < squareX(position, sit.width) + width;
+    x++
+  ) {
+    for (
+      let y = squareY(position, sit.width);
+      y < squareY(position, sit.width) + height;
+      y++
+    ) {
       sqs.push(toSquare(x, y, sit.width));
     }
   }
   return sqs;
 }
 
-export function findAllMoves(sit: Situation, piece: Piece | undefined): Square[] {
+export function findAllMoves(
+  sit: Situation,
+  piece: Piece | undefined,
+): Square[] {
   if (!piece) return [];
-  const curPieceSquares = squareArea(sit, piece.position, piece.width, piece.height),
-    sitNormalized = JSON.parse(JSON.stringify(sit));
+  const curPieceSquares = squareArea(
+    sit,
+    piece.position,
+    piece.width,
+    piece.height,
+  );
+  const sitNormalized = JSON.parse(JSON.stringify(sit));
   sitNormalized.config = sit.config;
   sitNormalized.selected = piece.position;
 
-  function innerFind(sit: Situation, piece: Piece | undefined, checked: Square[]) {
+  function innerFind(
+    sit: Situation,
+    piece: Piece | undefined,
+    checked: Square[],
+  ) {
     if (!piece) return [];
-    const neighbors: Square[] = [],
-      pieceSquares = squareArea(sit, piece.position, piece.width, piece.height),
-      res: Square[] = pieceSquares;
+    const neighbors: Square[] = [];
+    const pieceSquares = squareArea(
+      sit,
+      piece.position,
+      piece.width,
+      piece.height,
+    );
+    const res: Square[] = pieceSquares;
     for (const p of pieceSquares) {
       neighbors.push(...findNeighbors(p, sit.width, sit.height));
     }
@@ -70,7 +101,13 @@ export function findAllMoves(sit: Situation, piece: Piece | undefined): Square[]
           move(sitCopy, n);
 
           sitCopy.selected = n;
-          res.push(...innerFind(sitCopy, pieceAtSquare(sitCopy, sitCopy.selected), checked));
+          res.push(
+            ...innerFind(
+              sitCopy,
+              pieceAtSquare(sitCopy, sitCopy.selected),
+              checked,
+            ),
+          );
         }
       }
     }
@@ -79,7 +116,9 @@ export function findAllMoves(sit: Situation, piece: Piece | undefined): Square[]
 
   return [
     ...new Set(
-      innerFind(sitNormalized, piece, [] as Square[]).filter((sq) => !curPieceSquares.includes(sq)),
+      innerFind(sitNormalized, piece, [] as Square[]).filter(
+        (sq) => !curPieceSquares.includes(sq),
+      ),
     ),
   ];
 }
@@ -95,20 +134,29 @@ export function canMoveTo(sit: Situation, to: Square): boolean {
   const selectedPiece = pieceAtSquare(sit, sit.selected);
   if (!selectedPiece) return false;
 
-  const diff = sit.selected - to,
-    piecePosToBe = selectedPiece.position - diff,
-    pieceSquares = squareArea(
-      sit,
-      selectedPiece.position,
-      selectedPiece.width,
-      selectedPiece.height,
-    ),
-    afterPieceSquares = squareArea(sit, piecePosToBe, selectedPiece.width, selectedPiece.height);
+  const diff = sit.selected - to;
+  const piecePosToBe = selectedPiece.position - diff;
+  const pieceSquares = squareArea(
+    sit,
+    selectedPiece.position,
+    selectedPiece.width,
+    selectedPiece.height,
+  );
+  const afterPieceSquares = squareArea(
+    sit,
+    piecePosToBe,
+    selectedPiece.width,
+    selectedPiece.height,
+  );
 
   if (
-    pieceSquares.some((sq) => findNeighbors(sq, sit.width, sit.height).includes(to)) &&
+    pieceSquares.some((sq) =>
+      findNeighbors(sq, sit.width, sit.height).includes(to),
+    ) &&
     afterPieceSquares.every((sq) => sq >= 0 && sq < sit.width * sit.height) &&
-    !afterPieceSquares.some((sq) => sit.occupied.includes(sq) && !pieceSquares.includes(sq))
+    !afterPieceSquares.some(
+      (sq) => sit.occupied.includes(sq) && !pieceSquares.includes(sq),
+    )
   )
     return true;
   return false;
@@ -122,12 +170,17 @@ export function move(sit: Situation, to: Square): void {
   const piecePosToBe = selectedPiece.position - (sit.selected - to);
 
   const pieceSquares = squareArea(
-      sit,
-      selectedPiece.position,
-      selectedPiece.width,
-      selectedPiece.height,
-    ),
-    afterPieceSquares = squareArea(sit, piecePosToBe, selectedPiece.width, selectedPiece.height);
+    sit,
+    selectedPiece.position,
+    selectedPiece.width,
+    selectedPiece.height,
+  );
+  const afterPieceSquares = squareArea(
+    sit,
+    piecePosToBe,
+    selectedPiece.width,
+    selectedPiece.height,
+  );
   sit.occupied = sit.occupied.filter((sq) => !pieceSquares.includes(sq));
   sit.occupied.push(...afterPieceSquares);
 

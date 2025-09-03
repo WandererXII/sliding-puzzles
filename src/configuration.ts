@@ -1,5 +1,5 @@
-import { Situation } from './situations.js';
-import { Piece } from './types.js';
+import type { Situation } from './situations.js';
+import type { Piece } from './types.js';
 
 export interface Configuration {
   solution?: (sit: Situation) => boolean;

@@ -1,7 +1,7 @@
-import { Configuration } from './configuration.js';
-import { pieceAtSquare, Situation } from './situations.js';
+import type { Configuration } from './configuration.js';
+import { pieceAtSquare, type Situation } from './situations.js';
 import { diff, squareX, squareY } from './square.js';
-import { Elements, Pieces, Setup, Square } from './types.js';
+import type { Elements, Pieces, Setup, Square } from './types.js';
 
 // Puzzle setup is a string like this:
 //
@@ -60,7 +60,7 @@ export function createSituation(
 
   for (const r of rows) {
     for (const p of r.split(' ')) {
-      if (p == '.') {
+      if (p === '.') {
         curSq += 1;
       } else {
         boardMap.set(curSq, p);
@@ -94,8 +94,16 @@ export function createSituation(
       pieces.push({
         name: kv[1],
         position: kv[0],
-        width: diff(squareX(kv[0], width), squareX(Math.max(...occupiedSquares), width)) + 1,
-        height: diff(squareY(kv[0], width), squareY(Math.max(...occupiedSquares), width)) + 1,
+        width:
+          diff(
+            squareX(kv[0], width),
+            squareX(Math.max(...occupiedSquares), width),
+          ) + 1,
+        height:
+          diff(
+            squareY(kv[0], width),
+            squareY(Math.max(...occupiedSquares), width),
+          ) + 1,
       });
     }
   }

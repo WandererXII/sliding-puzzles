@@ -1,7 +1,12 @@
 import { redraw } from './render.js';
-import { canMoveTo, move, pieceAtSquare, Situation } from './situations.js';
+import {
+  canMoveTo,
+  move,
+  pieceAtSquare,
+  type Situation,
+} from './situations.js';
 import { getKeyAtDomPos } from './square.js';
-import { Unbind } from './types.js';
+import type { Unbind } from './types.js';
 import { eventPosition, posDiff } from './util.js';
 
 export function events(sit: Situation): Unbind {
@@ -24,7 +29,11 @@ export function events(sit: Situation): Unbind {
 
         const pos = eventPosition(e);
         if (pos) {
-          const sq = getKeyAtDomPos(sit, pos, sit.elements.board.getBoundingClientRect());
+          const sq = getKeyAtDomPos(
+            sit,
+            pos,
+            sit.elements.board.getBoundingClientRect(),
+          );
           sit.selected = sq;
           sit.pos = pos;
           redraw(sit);
@@ -41,7 +50,10 @@ export function events(sit: Situation): Unbind {
     e.preventDefault();
   });
 
-  return () => unbinds.forEach((f) => f());
+  return () =>
+    unbinds.forEach((f) => {
+      f();
+    });
 }
 
 function onMove(sit: Situation) {
@@ -50,9 +62,17 @@ function onMove(sit: Situation) {
     e.preventDefault();
     const pos = eventPosition(e);
     if (pos) {
-      const sq = getKeyAtDomPos(sit, pos, sit.elements.board.getBoundingClientRect());
+      const sq = getKeyAtDomPos(
+        sit,
+        pos,
+        sit.elements.board.getBoundingClientRect(),
+      );
       const diff = posDiff(sit.pos, pos);
-      if (sq !== undefined && sq !== sit.selected && (diff[0] > 15 || diff[1] > 15)) {
+      if (
+        sq !== undefined &&
+        sq !== sit.selected &&
+        (diff[0] > 15 || diff[1] > 15)
+      ) {
         if (canMoveTo(sit, sq)) {
           move(sit, sq);
           sit.selected = sq;
@@ -60,7 +80,9 @@ function onMove(sit: Situation) {
           redraw(sit);
           if (sit.config.solution(sit)) sit.config.onVictory(sit);
           sit.config.onMove(sit);
-        } else if (pieceAtSquare(sit, sit.selected) === pieceAtSquare(sit, sq)) {
+        } else if (
+          pieceAtSquare(sit, sit.selected) === pieceAtSquare(sit, sq)
+        ) {
           sit.selected = sq;
         }
       }

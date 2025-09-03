@@ -1,5 +1,5 @@
-import { Situation } from './situations.js';
-import { Square } from './types.js';
+import type { Situation } from './situations.js';
+import type { Square } from './types.js';
 
 export function diff(a: Square, b: Square): number {
   return Math.abs(a - b);
@@ -7,7 +7,8 @@ export function diff(a: Square, b: Square): number {
 
 export function manhattanDist(sq1: Square, sq2: Square, width: number): number {
   return (
-    diff(squareX(sq1, width), squareX(sq2, width)) + diff(squareY(sq1, width), squareY(sq2, width))
+    diff(squareX(sq1, width), squareX(sq2, width)) +
+    diff(squareY(sq1, width), squareY(sq2, width))
   );
 }
 
@@ -24,7 +25,11 @@ export function toSquare(x: number, y: number, width: number): Square {
 }
 
 // returns top, right, down, left neighbor
-export function findNeighbors(sq: Square, width: number, height: number): Square[] {
+export function findNeighbors(
+  sq: Square,
+  width: number,
+  height: number,
+): Square[] {
   return [sq + width, sq - width, sq + 1, sq - 1].filter((s) => {
     return (
       s >= 0 &&
@@ -40,8 +45,8 @@ export function getKeyAtDomPos(
   pos: [number, number],
   bounds: DOMRect,
 ): Square | undefined {
-  const x = Math.floor((sit.width * (pos[0] - bounds.left)) / bounds.width),
-    y = Math.floor((sit.height * (pos[1] - bounds.top)) / bounds.height);
+  const x = Math.floor((sit.width * (pos[0] - bounds.left)) / bounds.width);
+  const y = Math.floor((sit.height * (pos[1] - bounds.top)) / bounds.height);
   return x >= 0 && x < sit.width && y >= 0 && y < sit.height
     ? toSquare(x, y, sit.width)
     : undefined;
