@@ -1,4 +1,4 @@
-name: Lint
+name: CI
 on: [push, pull_request]
 jobs:
   build:
@@ -7,6 +7,5 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
       - run: npm install
-      - run: npm run format-check
-      - run: npm run lint
+      - run: npm run check
       - run: npm run build
