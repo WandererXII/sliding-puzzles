@@ -131,6 +131,7 @@ export function canMoveTo(sit: Situation, to: Square): boolean {
     sit.config.movable === false
   )
     return false;
+
   const selectedPiece = pieceAtSquare(sit, sit.selected);
   if (!selectedPiece) return false;
 
@@ -142,6 +143,7 @@ export function canMoveTo(sit: Situation, to: Square): boolean {
     selectedPiece.width,
     selectedPiece.height,
   );
+
   const afterPieceSquares = squareArea(
     sit,
     piecePosToBe,
@@ -149,17 +151,22 @@ export function canMoveTo(sit: Situation, to: Square): boolean {
     selectedPiece.height,
   );
 
-  if (
+  const col = piecePosToBe % sit.width;
+  const row = Math.floor(piecePosToBe / sit.width);
+  const withinBounds =
+    col + selectedPiece.width <= sit.width &&
+    row + selectedPiece.height <= sit.height;
+
+  return (
     pieceSquares.some((sq) =>
       findNeighbors(sq, sit.width, sit.height).includes(to),
     ) &&
+    withinBounds &&
     afterPieceSquares.every((sq) => sq >= 0 && sq < sit.width * sit.height) &&
     !afterPieceSquares.some(
       (sq) => sit.occupied.includes(sq) && !pieceSquares.includes(sq),
     )
-  )
-    return true;
-  return false;
+  );
 }
 
 export function move(sit: Situation, to: Square): void {
