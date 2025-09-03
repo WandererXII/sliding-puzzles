@@ -68,10 +68,12 @@ function onMove(sit: Situation) {
         sit.elements.board.getBoundingClientRect(),
       );
       const diff = posDiff(sit.pos, pos);
+      const minimalMovement = 15;
+
       if (
         sq !== undefined &&
         sq !== sit.selected &&
-        (diff[0] > 15 || diff[1] > 15)
+        diff.some((d) => d > minimalMovement)
       ) {
         if (canMoveTo(sit, sq)) {
           move(sit, sq);
