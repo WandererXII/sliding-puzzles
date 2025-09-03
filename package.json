@@ -25,13 +25,11 @@
     "esbuild": "^0.25",
     "typescript": "^5",
     "del-cli": "^6",
-    "nodemon": "3.1.10"
+    "nodemon": "^3"
   },
   "scripts": {
-    "lint": "biome check",
-    "lint:fix": "biome check --write",
-    "format": "biome format",
-    "format:fix": "biome format --write",
+    "check": "biome check",
+    "check:write": "biome check --write",
     "clean": "del dist",
     "compile": "tsc",
     "bundle": "node esbuild.mjs",
