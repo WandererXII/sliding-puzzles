@@ -11,49 +11,80 @@ import { eventPosition, posDiff } from './util.js';
 
 export function events(sit: Situation): Unbind {
   const unbinds: Unbind[] = [];
+  let touchUnbinds: Unbind[] = [];
+  const clearTouch = () => {
+    touchUnbinds.forEach((unbind) => {
+      unbind();
+    });
+    touchUnbinds = [];
+  };
+  const end = () => {
+    clearTouch();
+    onEnd(sit)();
+  };
 
   for (const ev of ['touchstart', 'mousedown']) {
-    sit.elements.main.addEventListener(
-      ev,
-      (e: Event & Partial<MouseEvent & TouchEvent>) => {
-        // from chessground
-        if (!e.isTrusted || (e.button !== undefined && e.button !== 0)) return; // only touch or left click
-        if (e.touches && e.touches.length > 1) return; // support one finger touch only
-        e.preventDefault();
+    unbinds.push(
+      unbindable(
+        sit.elements.main,
+        ev,
+        (e: Event & Partial<MouseEvent & TouchEvent>) => {
+          // from chessground
+          if (!e.isTrusted || (e.button !== undefined && e.button !== 0))
+            return; // only touch or left click
+          if (e.touches && e.touches.length > 1) return; // support one finger touch only
+          e.preventDefault();
 
-        // touchmove/touchend needs to bind to e.target
-        if (ev === 'touchstart' && e.target) {
-          e.target.addEventListener('touchmove', onMove(sit), { once: false });
-          e.target.addEventListener('touchend', onEnd(sit), { once: false });
-        }
+          // touchmove/touchend needs to bind to e.target
+          clearTouch();
+          if (ev === 'touchstart' && e.target) {
+            touchUnbinds = [
+              unbindable(e.target, 'touchmove', onMove(sit), {
+                passive: false,
+              }),
+              unbindable(e.target, 'touchend', end, {}),
+              unbindable(e.target, 'touchcancel', end, {}),
+            ];
+          }
 
-        const pos = eventPosition(e);
-        if (pos) {
-          const sq = getKeyAtDomPos(
-            sit,
-            pos,
-            sit.elements.board.getBoundingClientRect(),
-          );
-          sit.selected = sq;
-          sit.pos = pos;
-          redraw(sit);
-        }
-      },
-      { passive: false },
+          const pos = eventPosition(e);
+          if (pos) {
+            const sq = getKeyAtDomPos(
+              sit,
+              pos,
+              sit.elements.board.getBoundingClientRect(),
+            );
+            sit.selected = sq;
+            sit.pos = pos;
+            redraw(sit);
+          }
+        },
+        { passive: false },
+      ),
     );
   }
 
-  unbinds.push(unbindable('mousemove', onMove(sit), { once: false }));
-  unbinds.push(unbindable('mouseup', onEnd(sit), { once: false }));
+  unbinds.push(unbindable(document, 'mousemove', onMove(sit), {}));
+  unbinds.push(unbindable(document, 'mouseup', end, {}));
+  unbinds.push(
+    unbindable(
+      sit.elements.main,
+      'contextmenu',
+      (e) => {
+        e.preventDefault();
+      },
+      {},
+    ),
+  );
 
-  sit.elements.main.addEventListener('contextmenu', (e) => {
-    e.preventDefault();
-  });
-
-  return () =>
-    unbinds.forEach((f) => {
-      f();
+  return () => {
+    clearTouch();
+    unbinds.forEach((unbind) => {
+      unbind();
     });
+    sit.selected = undefined;
+    sit.pos = undefined;
+  };
 }
 
 function onMove(sit: Situation) {
@@ -101,10 +132,11 @@ function onEnd(sit: Situation): Unbind {
 }
 
 function unbindable(
+  target: EventTarget,
   eventName: string,
   callback: EventListener,
   options: AddEventListenerOptions,
 ): Unbind {
-  document.addEventListener(eventName, callback, options);
-  return () => document.removeEventListener(eventName, callback, options);
+  target.addEventListener(eventName, callback, options);
+  return () => target.removeEventListener(eventName, callback, options);
 }

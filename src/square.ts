@@ -30,13 +30,8 @@ export function findNeighbors(
   width: number,
   height: number,
 ): Square[] {
-  return [sq + width, sq - width, sq + 1, sq - 1].filter((s) => {
-    return (
-      s >= 0 &&
-      s <= width * height &&
-      diff(squareX(sq, width), squareX(s, width)) <= 1 &&
-      diff(squareY(sq, width), squareY(s, width)) <= 1
-    );
+  return [...new Set([sq + width, sq - width, sq + 1, sq - 1])].filter((s) => {
+    return s >= 0 && s < width * height && manhattanDist(sq, s, width) === 1;
   });
 }
 

@@ -48,6 +48,7 @@ export function createSituation(
   config: Required<Configuration>,
 ): Situation {
   const rows = board
+    .trim()
     .replace(/\n/g, '/')
     .split('/')
     .map((r: string) => r.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$/g, ''));

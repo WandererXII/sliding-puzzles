@@ -135,8 +135,23 @@ export function canMoveTo(sit: Situation, to: Square): boolean {
   const selectedPiece = pieceAtSquare(sit, sit.selected);
   if (!selectedPiece) return false;
 
-  const diff = sit.selected - to;
-  const piecePosToBe = selectedPiece.position - diff;
+  if (!Number.isInteger(to) || to < 0 || to >= sit.width * sit.height)
+    return false;
+
+  const dx = squareX(to, sit.width) - squareX(sit.selected, sit.width);
+  const dy = squareY(to, sit.width) - squareY(sit.selected, sit.width);
+  if (dx !== 0 && dy !== 0) return false;
+
+  const col = squareX(selectedPiece.position, sit.width) + dx;
+  const row = squareY(selectedPiece.position, sit.width) + dy;
+  if (
+    col < 0 ||
+    row < 0 ||
+    col + selectedPiece.width > sit.width ||
+    row + selectedPiece.height > sit.height
+  )
+    return false;
+
   const pieceSquares = squareArea(
     sit,
     selectedPiece.position,
@@ -144,33 +159,27 @@ export function canMoveTo(sit: Situation, to: Square): boolean {
     selectedPiece.height,
   );
 
-  const afterPieceSquares = squareArea(
-    sit,
-    piecePosToBe,
-    selectedPiece.width,
-    selectedPiece.height,
-  );
-
-  const col = piecePosToBe % sit.width;
-  const row = Math.floor(piecePosToBe / sit.width);
-  const withinBounds =
-    col + selectedPiece.width <= sit.width &&
-    row + selectedPiece.height <= sit.height;
-
-  return (
-    pieceSquares.some((sq) =>
-      findNeighbors(sq, sit.width, sit.height).includes(to),
-    ) &&
-    withinBounds &&
-    afterPieceSquares.every((sq) => sq >= 0 && sq < sit.width * sit.height) &&
-    !afterPieceSquares.some(
-      (sq) => sit.occupied.includes(sq) && !pieceSquares.includes(sq),
+  const step = Math.sign(dx) + Math.sign(dy) * sit.width;
+  const distance = Math.abs(dx) + Math.abs(dy);
+  for (let i = 1; i <= distance; i++) {
+    const squares = squareArea(
+      sit,
+      selectedPiece.position + step * i,
+      selectedPiece.width,
+      selectedPiece.height,
+    );
+    if (
+      squares.some(
+        (sq) => sit.occupied.includes(sq) && !pieceSquares.includes(sq),
+      )
     )
-  );
+      return false;
+  }
+  return true;
 }
 
 export function move(sit: Situation, to: Square): void {
-  if (sit.selected === undefined) return;
+  if (sit.selected === undefined || !canMoveTo(sit, to)) return;
   const selectedPiece = pieceAtSquare(sit, sit.selected);
   if (!selectedPiece) return;
 
